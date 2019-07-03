@@ -13,9 +13,17 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Users;
 
+
+
+
 class AuthController extends Controller
 {
+	public function __construct()
+		{
+			$this->middleware('auth:api', ['except' => ['login']]);
+		}
 	
+
 	public function login(Request $request){
 		
 		$request->all();
@@ -25,40 +33,31 @@ class AuthController extends Controller
 	
 		$allUsers = Users::all();
 	
-		$credentials = $request->only('email','password');
-	
-		var_dump($credentials);
-		
-		/*try{
-			if (! $token = JWTAuth::attempt($credentials)){
-				return response()->json(['error' => 'invalid_credentials']);
-			}
-		
-		}catch (JWTException $e){
-				return response()->json(['error' => 'could_not_create_token']);
-			}
-			
-		return response()->json(compact('token'));
-	
-	/*/
-	
-	
-	
-	
-	
-	
-	$ind = 0;
+		$ind = 0;
 	
 		foreach($allUsers as $user){
 				
-				if(Hash::check($password,$user['password']))
+				if(Hash::check($password,$user['password'])){
 					$ind = 1;
-				
+					$korisnik = $user;
 			}
+		}
 	
-		if ($ind != 0)
-			return "Moze se logovati";
-		else return "Ne moze se logovati";
+		if ($ind != 0){
+			
+			$token = str_random(32);
+			
+			
+			
+			
+			
+		return response()->json(['token' => $token], 200);
+
+			
+			
+			
+		}
+		
 	
 		//$user = DB::table('users')->where('email', $email)->first();
 		
@@ -69,9 +68,11 @@ class AuthController extends Controller
 	
 		
 		}
-	
-	
+
 	
 	
     //
+	
+
 }
+
