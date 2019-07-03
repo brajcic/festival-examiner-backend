@@ -6,8 +6,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Auth\Guard;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Users;
 
 class AuthController extends Controller
@@ -22,7 +25,29 @@ class AuthController extends Controller
 	
 		$allUsers = Users::all();
 	
-		$ind = 0;
+		$credentials = $request->only('email','password');
+	
+		var_dump($credentials);
+		
+		/*try{
+			if (! $token = JWTAuth::attempt($credentials)){
+				return response()->json(['error' => 'invalid_credentials']);
+			}
+		
+		}catch (JWTException $e){
+				return response()->json(['error' => 'could_not_create_token']);
+			}
+			
+		return response()->json(compact('token'));
+	
+	/*/
+	
+	
+	
+	
+	
+	
+	$ind = 0;
 	
 		foreach($allUsers as $user){
 				
@@ -41,7 +66,7 @@ class AuthController extends Controller
 	 
 		
 		//$this->assertDatabaseHas('users',['email' => $email]);
-		
+	
 		
 		}
 	
