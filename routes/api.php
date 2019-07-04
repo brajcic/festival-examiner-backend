@@ -20,4 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/register' , 'AuthController@register');
 Route::post('/login' , 'AuthController@login');
 Route::post('/logout' , 'AuthController@logout');
-
+Route::post('/add' , 'AddFestivalController@add');
+//Route::post('/addComment' , 'AddComment@addComment');
+//Route::post('/addRating' , 'AddRating@addRating');

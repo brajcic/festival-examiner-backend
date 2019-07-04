@@ -26,12 +26,17 @@ class AuthController extends Controller
 
 	public function login(Request $request){
 		
-		$request->all();
+		//$request->all();
 		$email = $request->email;
 		$password = $request->password;
 		
+		$ip = $request->ip();
+		
+		//echo $ip;
 	
 		$allUsers = Users::all();
+	
+	//	var_dump($allUsers);
 	
 		$ind = 0;
 	
@@ -39,40 +44,52 @@ class AuthController extends Controller
 				
 				if(Hash::check($password,$user['password'])){
 					$ind = 1;
-					$korisnik = $user;
-			}
+				}
 		}
 	
 		if ($ind != 0){
 			
 			$token = str_random(32);
-			
-			
-			
-			
-			
-		return response()->json(['token' => $token], 200);
-
-			
-			
-			
+				
+			return response()->json(['token' => $token], 200);		
 		}
 		
-	
-		//$user = DB::table('users')->where('email', $email)->first();
-		
-		//$users = DB::table('users')->get();
-	 
-		
-		//$this->assertDatabaseHas('users',['email' => $email]);
-	
-		
-		}
+		    return response('Unauthenticated.', 401);
 
+		
+		
+		//else  abort(401, 'Cannot login with that credentials.');
+		//return redirect()->route('login');
+
+	}
 	
-	
-    //
-	
+	public function addFestival(Request $request){
+
+			/*
+			  ako prodje validaciju
+			 
+			 */
+			 
+		/*	$festivalName = $request->festivalName;
+			$location = $request->location;
+			$bandNames = $request->bandNames;
+			
+			echo $location;
+			
+			$newFestival = new Festivals;
+				$newFestival->festivalName = $festivalName;
+				$newFestival->location = $location;
+				$newFestival->bandNames = $bandNames;
+				
+			
+			$newFestival->save();
+		
+		
+		return;
+		* */
+		
+		return "hello";
+	}
 
 }
 

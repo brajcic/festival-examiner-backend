@@ -33,6 +33,28 @@ class Users extends Seeder
 			'email' => ' radnaskela@gmail.com'
 		
 		]);
-        //
+        
+        DB::table('users')->insert([
+			'name' => 'Milica Rajcic',
+			'password' => bcrypt('rajcu'),
+			'email' => ' milica@gmail.com'
+		
+		]);
+		
+		DB::table('users')->insert([
+			'name' => 'Marija Stojkovic',
+			'password' => bcrypt('marija123'),
+			'email' => ' marija@gmail.com'
+		
+		]);
+		
+		DB::table('users')->insert([
+			'name' => 'Luka Stojkovic',
+			'password' => bcrypt('luka06'),
+			'email' => ' luka@gmail.com'
+		
+		]);
+		
+		
     }
 }
