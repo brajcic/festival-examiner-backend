@@ -4,8 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Ratings extends Model
+class Category extends Model
 {
-    protected $table = 'ratings';
+    protected $table = 'fcategories';
     public $timestamps = false;
 }

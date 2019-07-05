@@ -12,38 +12,56 @@ class FestivalsTableSeeder extends Seeder
     public function run()
     {
         DB::table('festivals')->insert([
-			'festivalName' => 'Arsenal_Fest',
+			'festival_name' => 'Arsenal_Fest',
 			'location' => 'Kragujevac, Serbia',
-			'bandNames' => 'Riblja_Corba, Metallica, Ghost, Nirvana'
+			'band_names' => 'Riblja_Corba, Metallica, Ghost, Nirvana',
+                        'category_id' => 2,
+                        'latitude' => 44.0082,
+                        'longitude' => 20.913999999999987
         ]);
         
         DB::table('festivals')->insert([
-			'festivalName' => 'Electronic Entertainment Expo',
+			'festival_name' => 'Electronic Entertainment Expo',
 			'location' => 'Los Angeles, USA',
-			'bandNames' => 'Microsoft, CDProjectRED, Activision, Blizzard, Sony, Nintendo'
+			'band_names' => 'Microsoft, CDProjectRED, Activision, Blizzard, Sony, Nintendo',
+                        'category_id' => 3,
+                        'latitude' => 34.0537,
+                        'longitude' => -118.243
         ]);
         
         DB::table('festivals')->insert([
-			'festivalName' => 'Gitarijada',
+			'festival_name' => 'Gitarijada',
 			'location' => 'Negotin, Serbia',
-			'bandNames' => 'Led Zeppelin, Foo Fighters'
+			'band_names' => 'Led Zeppelin, Foo Fighters',
+                        'category_id' => 2,
+                        'latitude' => 44.2271,
+                        'longitude' => 22.530899999999974
         ]);
         
         DB::table('festivals')->insert([
-			'festivalName' => 'EXIT',
+			'festival_name' => 'EXIT',
 			'location' => 'Novi Sad, Serbia',
-			'bandNames' => 'Carl Cox, The Chainsmokers, Whitechapel, DJ SNAKE, DUBFX, BLAWAN'
+			'band_names' => 'Carl Cox, The Chainsmokers, Whitechapel, DJ SNAKE, DUBFX, BLAWAN',
+                        'category_id' => 1,
+                        'latitude' => 45.2551,
+                        'longitude' => 19.845199999999977
         ]);
         
         DB::table('festivals')->insert([
-			'festivalName' => 'Tomorrowland',
+			'festival_name' => 'Tomorrowland',
 			'location' => 'Boom, Belgium',
-			'bandNames' => 'Martin Garrix, Dimitri Vegas, David Guetta'
+			'band_names' => 'Martin Garrix, Dimitri Vegas, David Guetta',
+                        'category_id' => 1,
+                        'latitude' => 51.0874,
+                        'longitude' => 4.366719999999987
         ]);
         
          DB::table('festivals')->insert([
-			'festivalName' => 'Carnival',
-			'location' => 'Rio de Janeiro, Brazil'
+			'festival_name' => 'Carnival',
+			'location' => 'Rio de Janeiro, Brazil',
+                        'category_id' => 3,
+                        'latitude' => -22.911,
+                        'longitude' => -43.20940000000002
 			
         ]);
         

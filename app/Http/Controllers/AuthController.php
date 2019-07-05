@@ -63,33 +63,6 @@ class AuthController extends Controller
 
 	}
 	
-	public function addFestival(Request $request){
-
-			/*
-			  ako prodje validaciju
-			 
-			 */
-			 
-		/*	$festivalName = $request->festivalName;
-			$location = $request->location;
-			$bandNames = $request->bandNames;
-			
-			echo $location;
-			
-			$newFestival = new Festivals;
-				$newFestival->festivalName = $festivalName;
-				$newFestival->location = $location;
-				$newFestival->bandNames = $bandNames;
-				
-			
-			$newFestival->save();
-		
-		
-		return;
-		* */
-		
-		return "hello";
-	}
-
+	
 }
 

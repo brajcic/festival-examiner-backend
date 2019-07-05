@@ -24,11 +24,11 @@ class CreateRatingsTable extends Migration
         
         Schema::table('ratings', function (Blueprint $table){
 			
-			  $table->bigInteger('festivalID')->unsigned()->after('name');
-			  $table->foreign('festivalID')->references('id')->on('festivals');
+            $table->bigInteger('festival_id')->unsigned()->after('name');
+            $table->foreign('festival_id')->references('id')->on('festivals');
 			
 			
-		});
+	});
         
         
         
