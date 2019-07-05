@@ -19,10 +19,10 @@ class AddFestivalController extends Controller
 {
 	public function add(Request $request){
 		
-		$festivalName = $request->festivalName;
+		$festivalName = $request->festival_name;
 		$location = $request->location;
-                if($request->exists('bandNames'))
-                    $bandNames = $request->bandNames;
+                if($request->exists('band_names'))
+                    $bandNames = $request->band_names;
 				
 		//echo $location;
 				
@@ -31,11 +31,11 @@ class AddFestivalController extends Controller
 		//var_dump($newFestival);
 		
 		$newFestival = new Festivals;
-		$newFestival->festivalName = $festivalName;
+		$newFestival->festival_name = $festivalName;
 		$newFestival->location = $location;
                 
-                    if($request->exists('bandNames'))
-                        $newFestival->bandNames = $bandNames;
+                    if($request->exists('band_names'))
+                        $newFestival->band_names = $bandNames;
 					
 			
 		//echo $newFestival->festivalName;	
@@ -50,11 +50,11 @@ class AddFestivalController extends Controller
 			
 			//echo $regex;
 			
-			$festivals = Festivals::where('festivalName', 'LIKE' , "%$regex%")->get();
+			$festivals = Festivals::where('festival_name', 'LIKE' , "%$regex%")->get();
 			
 			foreach($festivals as $festival){
 				
-					echo $festival['festivalName'];
+					echo $festival['festival_name'];
 			}	
 		
 	}
