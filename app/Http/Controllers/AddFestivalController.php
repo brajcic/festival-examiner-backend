@@ -11,42 +11,40 @@ use Illuminate\Auth\Guard;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Requests\FestivalRequest;
+use App\Http\Requests\UpdateFestivalRequest;
 use App\Festivals;
-use Location;
 use Response;
 
 
 class AddFestivalController extends Controller
 {
-	public function add(Request $request){
-	
-                
-               
-            
-		$newFestival = new Festivals;
-		$newFestival->festival_name = $request->festival_name;
-		$newFestival->location = $request->location;
-                $newFestival->latitude = $request->latidude;
-                $newFestival->longitude = $request->longitude;
-                
-                    if($request->exists('band_names'))
-                        $newFestival->band_names = $bandNames;
-	
-		$newFestival->save();
+	public function add(FestivalRequest $request){
+	    
+	$newFestival = new Festivals;
+	$newFestival->festival_name = $request->festival_name;
+	$newFestival->location = $request->location;
+        $newFestival->latitude = $request->latidude;
+        $newFestival->longitude = $request->longitude;
+        $newFestival->band_names = $request->band_names;
+        
+        $imageName = time().'.'.request()->image->getClientOriginalExtension();
+        request()->image->move(public_path('images'), $imageName);
+
+	$newFestival->save();
 		
               
-		return Response::json(Festivals::all());
+	return Response::json(Festivals::all());
                 
                  
     }
     
     public function search(Request $request){
 		
-			$regex = $request->regex;
+	$regex = $request->regex;
 			
-			$festivals = Festivals::where('festival_name', 'LIKE' , "%$regex%")->get();
+	$festivals = Festivals::where('festival_name', 'LIKE' , "%$regex%")->get();
 			
-			return Response::json($festivals);
+	return Response::json($festivals);
 		
 	}
         
@@ -62,24 +60,13 @@ class AddFestivalController extends Controller
     public function distance(Request $request){
         
         $ip = $request->ip();
+        
         $maxDistance = $request->distance;
-        
-        
-        
-       // $userLocation = Location::get('82.117.212.250');
-          
-        //var_dump($userLocation);
-        
+
         $userLatitude = $request->latitude;
         
         $userLongitude = $request->longitude;
 
-        
-       //$userLongitude = 20.913999999999987;
-       //$userLatitude = 44.0082; // kg
-         
-        //var_dump($userLatitude);
-        //var_dump($userLongitude);
        
         $festivali = Festivals::all();
         $returningFestivals = [];
@@ -98,8 +85,6 @@ class AddFestivalController extends Controller
             $miles = $dist * 60 * 1.1515;
 
             $distance = ($miles * 1.609344);
-
-            //echo $distance."  ";
             
            if($distance <= $maxDistance)
                array_push($returningFestivals, $festival);
@@ -116,22 +101,27 @@ class AddFestivalController extends Controller
     public function show(Request $request){
         
        
-       return Response::json(Festivals::simplePaginate(2)); // 2 zato sto ima samo 6 festivala u bazi
+       return Response::json(Festivals::simplePaginate($request->npp));
     }
     
-    public function update(Request $request){
+    public function update(UpdateFestivalRequest $request){
         
-        $id = $request->id;
+        $updatedFestival = new Festivals;
+     
+        $updatedFestival->festival_name = $request->festival_name;
+	$updatedFestival->location = $request->location;
+        $updatedFestival->latitude = $request->latidude;
+        $updatedFestival->longitude = $request->longitude;
+        $updatedFestival->band_names = $request->band_names;
         
-        /*if($request->exists('festivalName')){
-            if($request->filled('festivalName')){
-                $newName = $request->festivalName;
-            }
-        }
-         * */
-         
-        
-        
+        $imageName = time().'.'.request()->image->getClientOriginalExtension();
+        request()->image->move(public_path('images'), $imageName);
+
+	$updatedFestival->save();
+		
+              
+	return Response::json(Festivals::all());
+       
         
         
     }

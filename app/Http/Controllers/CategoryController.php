@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Auth\Guard;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use Tymon\JWTAuth\Exceptions\JWTException;
+use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\DeleteCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Category;
 use Response;
 use App\Festivals;
@@ -19,23 +19,21 @@ use App\Ratings;
 
 class CategoryController extends Controller
 {
-    public function add(Request $request){
-   
-        $newCategory = new Category;
-        $newCategory->category_name = $request->category_name;
+    public function add(CategoryRequest $request){
+      
+       $newCategory = new Category;
+       $newCategory->category_name = $request->category_name;
         
-        $newCategory->save();
+       $newCategory->save();
         
-        return Response::json(Category::all());
+       return Response::json(Category::all());
         
        
     }
     
-    public function delete(Request $request){
-        
-        $id = $request->id;
-        
-        Category::where('id', $id)->delete();
+    public function delete(DeleteCategoryRequest $request){
+    
+        Category::where('id', $request->id)->delete();
       
         return Response::json(Category::all());
     }
@@ -45,26 +43,17 @@ class CategoryController extends Controller
         return Response::json(Category::all());
     }
     
-    public function update(Request $request){
+    public function update(UpdateCategoryRequest $request){
         
         $id = $request->id;
         
         $oldCategory = Category::where('id', $id)->get();
-        
-        //var_dump($oldCategory);
-        
-        //echo $oldCategory[0]['categoryName'];
-        
-        if($request->exists('categoryName')){
-            if($request->filled('categoryName')){
-               //echo $oldCategory['categoryName'];
-               $oldCategory[0]['categoryName'] = $request->categoryName;
-               $oldCategory[0]->save();
-            }
-            else return Response::json(array('error' => 'categoryName is empty.'));
-        }
-        else return Response::json(array('error' => 'categoryName has not been sent.'));
-       
+    
+      
+        $oldCategory[0]['category_name'] = $request->category_name;
+        $oldCategory[0]->save();
+      
+        return Response::json(Category::all());
     }
     
 }

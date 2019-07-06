@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FestivalRequest extends FormRequest
+class UpdateFestivalRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,6 @@ class FestivalRequest extends FormRequest
      */
     public function authorize()
     {
-        //Auth::check();
         return true;
     }
 
@@ -25,17 +24,17 @@ class FestivalRequest extends FormRequest
     public function rules()
     {
         return [
+            'id' => 'required|integer',
             'festival_name' => 'required',
             'location' => 'required|string|max:50',
             'band_names' => 'nullable',
             'latitude' => 'required',
             'longitude' => 'required',
             'image_url' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-            
         ];
     }
     
-    public function messages()
+      public function messages()
     {
         return [
             'festival_name.required' => 'Festival name is required!',
@@ -45,5 +44,5 @@ class FestivalRequest extends FormRequest
             'image_url.required' => 'Image url is required!'
         ];
     }
+    
 }
-

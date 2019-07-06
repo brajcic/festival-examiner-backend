@@ -15,7 +15,7 @@ class Users extends Seeder
 		DB::table('users')->insert([
 			'name' => 'Bojan Rajcic',
 			'password' => bcrypt('bojan123'),
-			'email' => ' bojan@gmail.com'
+			'email' => 'bojan@gmail.com'
 		
 		]);
 		
@@ -23,35 +23,35 @@ class Users extends Seeder
 		DB::table('users')->insert([
 			'name' => 'Bojan Panic',
 			'password' => bcrypt('bojan456'),
-			'email' => ' panic@gmail.com'
+			'email' => 'panic@gmail.com'
 		
 		]);
 		
 		DB::table('users')->insert([
 			'name' => 'Aleksandar Dzavric',
 			'password' => bcrypt('radnaskela'),
-			'email' => ' radnaskela@gmail.com'
+			'email' => 'radnaskela@gmail.com'
 		
 		]);
         
         DB::table('users')->insert([
 			'name' => 'Milica Rajcic',
 			'password' => bcrypt('rajcu'),
-			'email' => ' milica@gmail.com'
+			'email' => 'milica@gmail.com'
 		
 		]);
 		
 		DB::table('users')->insert([
 			'name' => 'Marija Stojkovic',
 			'password' => bcrypt('marija123'),
-			'email' => ' marija@gmail.com'
+			'email' => 'marija@gmail.com'
 		
 		]);
 		
 		DB::table('users')->insert([
 			'name' => 'Luka Stojkovic',
 			'password' => bcrypt('luka06'),
-			'email' => ' luka@gmail.com'
+			'email' => 'luka@gmail.com'
 		
 		]);
 		
