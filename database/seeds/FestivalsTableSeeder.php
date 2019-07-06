@@ -17,7 +17,8 @@ class FestivalsTableSeeder extends Seeder
 			'band_names' => 'Riblja_Corba, Metallica, Ghost, Nirvana',
                         'category_id' => 2,
                         'latitude' => 44.0082,
-                        'longitude' => 20.913999999999987
+                        'longitude' => 20.913999999999987,
+                        'image_url' => Storage::url('image1.jpg')
         ]);
         
         DB::table('festivals')->insert([
@@ -26,16 +27,18 @@ class FestivalsTableSeeder extends Seeder
 			'band_names' => 'Microsoft, CDProjectRED, Activision, Blizzard, Sony, Nintendo',
                         'category_id' => 3,
                         'latitude' => 34.0537,
-                        'longitude' => -118.243
+                        'longitude' => -118.243,
+                        'image_url' => Storage::url('image4.jpg')
         ]);
         
         DB::table('festivals')->insert([
 			'festival_name' => 'Gitarijada',
-			'location' => 'Negotin, Serbia',
+			'location' => 'Zajecar, Serbia',
 			'band_names' => 'Led Zeppelin, Foo Fighters',
                         'category_id' => 2,
-                        'latitude' => 44.2271,
-                        'longitude' => 22.530899999999974
+                        'latitude' => 43.9029,
+                        'longitude' => 22.278500000000008,
+                        'image_url' => Storage::url('image2.jpg')
         ]);
         
         DB::table('festivals')->insert([
@@ -44,7 +47,8 @@ class FestivalsTableSeeder extends Seeder
 			'band_names' => 'Carl Cox, The Chainsmokers, Whitechapel, DJ SNAKE, DUBFX, BLAWAN',
                         'category_id' => 1,
                         'latitude' => 45.2551,
-                        'longitude' => 19.845199999999977
+                        'longitude' => 19.845199999999977,
+                        'image_url' => Storage::url('image5.jpg')
         ]);
         
         DB::table('festivals')->insert([
@@ -53,7 +57,8 @@ class FestivalsTableSeeder extends Seeder
 			'band_names' => 'Martin Garrix, Dimitri Vegas, David Guetta',
                         'category_id' => 1,
                         'latitude' => 51.0874,
-                        'longitude' => 4.366719999999987
+                        'longitude' => 4.366719999999987,
+                        'image_url' => Storage::url('image3.jpg')
         ]);
         
          DB::table('festivals')->insert([
@@ -61,7 +66,8 @@ class FestivalsTableSeeder extends Seeder
 			'location' => 'Rio de Janeiro, Brazil',
                         'category_id' => 3,
                         'latitude' => -22.911,
-                        'longitude' => -43.20940000000002
+                        'longitude' => -43.20940000000002,
+                        'image_url' => Storage::url('image6.jpg')
 			
         ]);
         

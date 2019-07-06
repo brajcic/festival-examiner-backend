@@ -24,7 +24,7 @@ Route::post('/add' , 'AddFestivalController@add');
 //Route::post('/addComment' , 'AddComment@addComment');
 Route::get('/addRating' , 'AddRating@addRating');
 Route::get('/searchFestivals' , 'AddFestivalController@search');
-Route::post('/showFestivals' , 'AddFestivalController@show');
+Route::get('/showFestivals' , 'AddFestivalController@show');
 Route::post('/deleteFestival' , 'AddFestivalController@deleteFestival');
 Route::get('/distance', 'AddFestivalController@distance');
 Route::post('/addCategory' , 'CategoryController@add');

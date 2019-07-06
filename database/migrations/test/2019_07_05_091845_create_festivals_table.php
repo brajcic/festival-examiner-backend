@@ -21,6 +21,7 @@ class CreateFestivalsTable extends Migration
             $table->string('band_names')->nullable();
             $table->double('latitude');
             $table->double('longitude');
+            $table->string('image_url')->nullable();
             //$table->timestamps();
         });
         
@@ -28,7 +29,7 @@ class CreateFestivalsTable extends Migration
          Schema::table('festivals', function (Blueprint $table){
 			
             $table->bigInteger('category_id')->unsigned()->after('id');
-            $table->foreign('category_id')->references('id')->on('fcategories');
+            $table->foreign('category_id')->references('id')->on('fcategories')->onDelete('cascade');
 			
 			
 	});

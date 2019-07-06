@@ -39,10 +39,12 @@ class AddRating extends Controller
 				$newRating->rating = $request->rating;
 				
 				$newRating->save();
+                                
+                               return Response::json(Ratings::all());
 			}
 			
 			else{
-					return "Vec ste dali ocenu!";
+					return Response::json(array('error' => 'You have already rated a festival'));
 			}
 		
 		

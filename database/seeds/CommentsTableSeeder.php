@@ -82,9 +82,6 @@ class CommentsTableSeeder extends Seeder
 			'festival_id' => 6,
 			'comment' => ' Zasto?'	
 		]);
-		
-		
-		
-		
+	
     }
 }

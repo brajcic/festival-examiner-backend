@@ -13,6 +13,7 @@ class FestivalRequest extends FormRequest
      */
     public function authorize()
     {
+        //Auth::check();
         return true;
     }
 
@@ -26,7 +27,21 @@ class FestivalRequest extends FormRequest
         return [
             'festival_name' => 'required',
             'location' => 'required|string|max:50',
+            'band_names' => 'nullable',
+            'latitude' => 'required',
+            'longitude' => 'required'
             
         ];
     }
+    
+    public function messages()
+    {
+        return [
+            'festival_name.required' => 'Festival name is required!',
+            'location.required' => 'Location is required!',
+            'latitude.required' => 'Latitude is required!',
+            'longitude.required' => 'Longitude is required'
+        ];
+    }
 }
+

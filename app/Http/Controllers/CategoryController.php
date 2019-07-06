@@ -12,20 +12,23 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Category;
 use Response;
+use App\Festivals;
+use App\Comments;
+use App\Ratings;
 
 
 class CategoryController extends Controller
 {
     public function add(Request $request){
-        
-        $name = $request->categoryName;
-        
+   
         $newCategory = new Category;
-        $newCategory->categoryName = $name;
+        $newCategory->category_name = $request->category_name;
         
         $newCategory->save();
         
-        return "Dodato";
+        return Response::json(Category::all());
+        
+       
     }
     
     public function delete(Request $request){
@@ -33,8 +36,8 @@ class CategoryController extends Controller
         $id = $request->id;
         
         Category::where('id', $id)->delete();
-        
-        return "uspesno";
+      
+        return Response::json(Category::all());
     }
     
     public function show(Request $request){

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Guard;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use App\Http\Requests\FestivalRequest;
 use App\Festivals;
 use Location;
 use Response;
@@ -18,44 +19,34 @@ use Response;
 class AddFestivalController extends Controller
 {
 	public function add(Request $request){
-		
-		$festivalName = $request->festival_name;
-		$location = $request->location;
-                if($request->exists('band_names'))
-                    $bandNames = $request->band_names;
-				
-		//echo $location;
-				
-		//$newFestival = Festivals::all();
-		
-		//var_dump($newFestival);
-		
+	
+                
+               
+            
 		$newFestival = new Festivals;
-		$newFestival->festival_name = $festivalName;
-		$newFestival->location = $location;
+		$newFestival->festival_name = $request->festival_name;
+		$newFestival->location = $request->location;
+                $newFestival->latitude = $request->latidude;
+                $newFestival->longitude = $request->longitude;
                 
                     if($request->exists('band_names'))
                         $newFestival->band_names = $bandNames;
-					
-			
-		//echo $newFestival->festivalName;	
+	
 		$newFestival->save();
 		
-		return Response::json(array('message' => 'Uspesno ste dodali festival'));
+              
+		return Response::json(Festivals::all());
+                
+                 
     }
     
     public function search(Request $request){
 		
 			$regex = $request->regex;
 			
-			//echo $regex;
-			
 			$festivals = Festivals::where('festival_name', 'LIKE' , "%$regex%")->get();
 			
-			foreach($festivals as $festival){
-				
-					echo $festival['festival_name'];
-			}	
+			return Response::json($festivals);
 		
 	}
         
@@ -64,8 +55,8 @@ class AddFestivalController extends Controller
         $id = $request->id;
         
         Festivals::where('id', $id)->delete();
-
-        return "Uspesno";
+        
+        return Response::json(Festivals::all());
     }
     
     public function distance(Request $request){
@@ -124,8 +115,8 @@ class AddFestivalController extends Controller
     
     public function show(Request $request){
         
-        
-       return Response::json(Festivals::all());
+       
+       return Response::json(Festivals::simplePaginate(2)); // 2 zato sto ima samo 6 festivala u bazi
     }
     
     public function update(Request $request){
