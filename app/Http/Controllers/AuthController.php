@@ -20,45 +20,31 @@ use Response;
 
 class AuthController extends Controller
 {
-	public function __construct()
-		{
-			$this->middleware('auth:api', ['except' => ['login']]);
-		}
+    public function __construct(){
+        $this->middleware('auth:api', ['except' => ['login']]);
+    }
 	
 
-	public function login(LoginRequest $request){
-		
-		$email = $request->email;
-		$password = $request->password;
-		
-		$ip = $request->ip();
+    public function login(LoginRequest $request){
+	$email = $request->email;
+	$password = $request->password;
+	$allUsers = Users::all();
+	$ind = 0;
 	
-		$allUsers = Users::all();
-	
-		$ind = 0;
-	
-		foreach($allUsers as $user){
+	foreach($allUsers as $user){
                    
-                        if(strcmp($user['email'],$email) == 0 ){
-                            
-				if(Hash::check($password, $user['password'])){
-					$ind = 1;
-				}
-                        }
-		}
-	
-		if ($ind != 0){
-			
-			$token = str_random(32);
-				
-			return Response::json(['token' => $token], 200);		
-		}
-		
-		    return Response::json(array('error' => 'User does not exist in database.'));
-
-
+            if(strcmp($user['email'],$email) == 0 ){            
+                if(Hash::check($password, $user['password'])){
+                $ind = 1;}          
+            }
 	}
 	
-	
+	if ($ind != 0){		
+            $token = str_random(32);			
+            return Response::json(['token' => $token], 200);		
+        }
+		
+        return Response::json(array('error' => 'User does not exist in database.'));
+    }
 }
 

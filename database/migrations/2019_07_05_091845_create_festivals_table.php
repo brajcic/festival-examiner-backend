@@ -22,14 +22,10 @@ class CreateFestivalsTable extends Migration
             $table->double('longitude');
             $table->string('image_url')->nullable();
         });
-        
-        
-         Schema::table('festivals', function (Blueprint $table){
-			
+      
+         Schema::table('festivals', function (Blueprint $table){		
             $table->bigInteger('category_id')->unsigned()->after('id');
-            $table->foreign('category_id')->references('id')->on('fcategories')->onDelete('cascade');
-			
-			
+            $table->foreign('category_id')->references('id')->on('fcategories')->onDelete('cascade');	
 	});
         
     }

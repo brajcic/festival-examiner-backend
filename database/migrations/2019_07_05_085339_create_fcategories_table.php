@@ -15,8 +15,7 @@ class CreateFcategoriesTable extends Migration
     {
         Schema::create('fcategories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string("category_name");
-            
+            $table->string("category_name");     
         });
     }
 

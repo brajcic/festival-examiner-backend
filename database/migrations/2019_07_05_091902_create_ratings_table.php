@@ -16,20 +16,13 @@ class CreateRatingsTable extends Migration
         Schema::create('ratings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->integer('rating');
-            
+            $table->integer('rating');  
         });
         
-        Schema::table('ratings', function (Blueprint $table){
-			
+        Schema::table('ratings', function (Blueprint $table){		
             $table->bigInteger('festival_id')->unsigned()->after('name');
-            $table->foreign('festival_id')->references('id')->on('festivals')->onDelete('cascade');
-			
-			
+            $table->foreign('festival_id')->references('id')->on('festivals')->onDelete('cascade');			
 	});
-        
-        
-        
     }
 
     /**

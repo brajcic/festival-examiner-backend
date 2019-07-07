@@ -14,7 +14,3 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('proba', function(){
-	return 'Hello World!';
-});

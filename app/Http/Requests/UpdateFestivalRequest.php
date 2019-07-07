@@ -30,18 +30,21 @@ class UpdateFestivalRequest extends FormRequest
             'band_names' => 'nullable',
             'latitude' => 'required',
             'longitude' => 'required',
-            'image_url' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'image_url' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'category_id' => 'required'
         ];
     }
     
       public function messages()
     {
         return [
+            'id.required' => 'ID is required!',
             'festival_name.required' => 'Festival name is required!',
             'location.required' => 'Location is required!',
             'latitude.required' => 'Latitude is required!',
             'longitude.required' => 'Longitude is required!',
-            'image_url.required' => 'Image url is required!'
+            'image_url.required' => 'Image url is required!',
+            'category_id.required' => 'CategoryID is required'
         ];
     }
     

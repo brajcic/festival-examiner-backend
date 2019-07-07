@@ -14,6 +14,7 @@ use App\Http\Requests\FestivalRequest;
 use App\Http\Requests\UpdateFestivalRequest;
 use App\Festivals;
 use Response;
+use File;
 
 
 class AddFestivalController extends Controller
@@ -23,37 +24,32 @@ class AddFestivalController extends Controller
 	$newFestival = new Festivals;
 	$newFestival->festival_name = $request->festival_name;
 	$newFestival->location = $request->location;
-        $newFestival->latitude = $request->latidude;
+        $newFestival->latitude = $request->latitude;
         $newFestival->longitude = $request->longitude;
         $newFestival->band_names = $request->band_names;
+        $newFestival->category_id = $request->category_id;
         
-        $imageName = time().'.'.request()->image->getClientOriginalExtension();
-        request()->image->move(public_path('images'), $imageName);
-
-	$newFestival->save();
-		
-              
-	return Response::json(Festivals::all());
-                
-                 
+        $image = $request->file('image_url');
+        $id = Festivals::max('id') + 1;
+        $name = 'image'.$id.'.'.$image->getClientOriginalExtension();
+        $destinationPath = public_path('/images');
+        $image->move($destinationPath, $name);
+        
+        $newFestival->image_url = 'images/'.$name;
+	$newFestival->save();       
+	return Response::json(Festivals::all());          
     }
     
     public function search(Request $request){
 		
-	$regex = $request->regex;
-			
-	$festivals = Festivals::where('festival_name', 'LIKE' , "%$regex%")->get();
-			
-	return Response::json($festivals);
-		
-	}
+	$regex = $request->regex;		
+	$festivals = Festivals::where('festival_name', 'LIKE' , "%$regex%")->get();	
+	return Response::json($festivals);	
+    }
         
     public function deleteFestival(Request $request){
         
-        $id = $request->id;
-        
-        Festivals::where('id', $id)->delete();
-        
+        Festivals::where('id', $request->id)->delete();
         return Response::json(Festivals::all());
     }
     
@@ -99,30 +95,34 @@ class AddFestivalController extends Controller
     
     
     public function show(Request $request){
-        
-       
        return Response::json(Festivals::simplePaginate($request->npp));
     }
     
+    public function showFestivalByID(Request $request){
+       return Response::json(Festivals::where('id' , $request->id)->get());
+    }
+ 
     public function update(UpdateFestivalRequest $request){
         
-        $updatedFestival = new Festivals;
-     
-        $updatedFestival->festival_name = $request->festival_name;
-	$updatedFestival->location = $request->location;
-        $updatedFestival->latitude = $request->latidude;
-        $updatedFestival->longitude = $request->longitude;
-        $updatedFestival->band_names = $request->band_names;
-        
-        $imageName = time().'.'.request()->image->getClientOriginalExtension();
-        request()->image->move(public_path('images'), $imageName);
-
-	$updatedFestival->save();
-		
-              
-	return Response::json(Festivals::all());
+       $festival = Festivals::where('id' , $request->id)->get();
        
-        
-        
+       $festival[0]['festival_name'] = $request->festival_name;
+       $festival[0]['location'] = $request->location;
+       $festival[0]['band_names'] = $request->band_names;
+       $festival[0]['latitude'] = $request->latitude;
+       $festival[0]['longitude'] = $request->longitude;
+       $url = $festival[0]['image_url'];
+       
+       if(File::exists($url))
+           File::delete($url);
+       
+       $image = $request->file('image_url');
+       $id = $festival[0]['id'];
+       $name = 'image'.$id.'.'.$image->getClientOriginalExtension();
+       $destinationPath = public_path('/images');
+       $image->move($destinationPath, $name);
+       $festival[0]['image_url']->image_url = 'images/'.$name;     
+       return Response::json(Festivals::all());
+    
     }
 }
