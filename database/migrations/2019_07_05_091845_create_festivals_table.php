@@ -21,6 +21,7 @@ class CreateFestivalsTable extends Migration
             $table->double('latitude');
             $table->double('longitude');
             $table->string('image_url')->nullable();
+          
         });
       
          Schema::table('festivals', function (Blueprint $table){		

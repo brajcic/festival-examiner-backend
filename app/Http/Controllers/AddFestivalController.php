@@ -19,6 +19,7 @@ use File;
 
 class AddFestivalController extends Controller
 {
+        
 	public function add(FestivalRequest $request){
 	    
 	$newFestival = new Festivals;
@@ -49,48 +50,27 @@ class AddFestivalController extends Controller
         
     public function deleteFestival(Request $request){
         
-        Festivals::where('id', $request->id)->delete();
-        return Response::json(Festivals::all());
+       Festivals::where('id', $request->id)->delete();
+       return Response::json(Festivals::all());
     }
     
     public function distance(Request $request){
         
-        $ip = $request->ip();
-        
-        $maxDistance = $request->distance;
-
-        $userLatitude = $request->latitude;
-        
-        $userLongitude = $request->longitude;
-
+       $festivals = Festivals::select(
+            DB::raw("*,
+                ( 6371 * acos( cos( radians(?) ) *
+                cos( radians( latitude ) )
+                * cos( radians( longitude ) - radians(?)
+                ) + sin( radians(?) ) *
+                sin( radians( latitude ) ) )
+                ) AS distance"))
+            ->having("distance", "<", "?")
+            ->orderBy("distance")
+            ->setBindings([$request->latitude, $request->longitude, $request->latitude, $request->distance])
+            ->get();
        
-        $festivali = Festivals::all();
-        $returningFestivals = [];
-        
-      
-        foreach($festivali as $festival){
-        
-            $longitudeTo = $festival['longitude'];
-            $latitudeTo = $festival['latitude'];
-       
-            
-            $theta = $userLongitude - $longitudeTo;
-            $dist = sin(deg2rad($userLatitude)) * sin(deg2rad($latitudeTo)) +  cos(deg2rad($userLatitude)) * cos(deg2rad($latitudeTo)) * cos(deg2rad($theta));
-            $dist = acos($dist);
-            $dist = rad2deg($dist);
-            $miles = $dist * 60 * 1.1515;
-
-            $distance = ($miles * 1.609344);
-            
-           if($distance <= $maxDistance)
-               array_push($returningFestivals, $festival);
-          
-           
-        }
+       return Response::json($festivals);
     
-         return Response::json($returningFestivals); 
-       
-        
     }
     
     

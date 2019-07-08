@@ -18,6 +18,7 @@ class CreateUsers extends Migration
             $table->string('name');
             $table->string('password');
             $table->string('email')->unique();
+            $table->string('api_token', 60)->unique()->nullable();
         });
     }
 
