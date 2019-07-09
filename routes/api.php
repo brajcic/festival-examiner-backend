@@ -18,22 +18,48 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/register' , 'AuthController@register');
+
 Route::post('/login' , 'AuthController@login');
+
 Route::post('/logout' , 'AuthController@logout');
-Route::get('/showCategory', 'CategoryController@show');
+
 Route::get('/addComment' , 'AddCommentController@addComment');
+
 Route::get('/addRating' , 'AddRating@addRating');
+
+Route::post('/updateFestival' , 'AddFestivalController@update');
+
 Route::get('/searchFestivals' , 'AddFestivalController@search');
+
 Route::get('/showFestivals' , 'AddFestivalController@show');
-Route::get('/showFestivalByID' , 'AddFestivalController@showFestivalByID');
+
+Route::post('/showFestivalByID' , 'AddFestivalController@showFestivalByID');
+
 Route::get('/distance', 'AddFestivalController@distance');
- 
+
+Route::get('/filters' , 'AddFestivalController@filters');
+
 Route::group(['middleware' => ['jwt.auth']], function() {
-    Route::post('/deleteFestival', 'AddFestivalController@deleteFestival');
-    Route::post('/addCategory' , 'CategoryController@add');
-    Route::post('/deleteCategory' , 'CategoryController@delete');
-    Route::post('/updateCategory' , 'CategoryController@update');
-    Route::post('/updateCategory' , 'CategoryController@update');
+     
     Route::post('/add' , 'AddFestivalController@add');
+    
+    Route::post('/addCategory' , 'CategoryController@add');
+    
+    Route::post('/updateCategory' , 'CategoryController@update');
+    
+    Route::post('/deleteFestival', 'AddFestivalController@deleteFestival');
+    
+    Route::post('/deleteCategory' , 'CategoryController@delete');
+    
+    Route::post('/deleteComment' , 'CommentControler@delete');
+    
+    Route::post('/deleteRating' , 'RatingController@delete');
+    
+    Route::post('/showComments' , 'CommentController@show');
+    
+    Route::post('/showRatings' , 'RatingController@show');
+    
+    Route::post('/showCategory', 'CategoryController@show');
+    
 });
    

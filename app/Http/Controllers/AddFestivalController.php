@@ -12,6 +12,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Requests\FestivalRequest;
 use App\Http\Requests\UpdateFestivalRequest;
+use App\Http\Requests\FilterRequest;
 use App\Festivals;
 use Response;
 use File;
@@ -69,39 +70,115 @@ class AddFestivalController extends Controller
             ->setBindings([$request->latitude, $request->longitude, $request->latitude, $request->distance])
             ->get();
        
-       return Response::json($festivals);
+        return Response::json($festivals);
     
     }
     
+     public function filters(FilterRequest $request){
+       
+        if($request->latitude != null && $request->longitude != null){
+            $festivals = Festivals::select(
+                DB::raw("*,
+                    ( 6371 * acos( cos( radians(?) ) *
+                    cos( radians( latitude ) )
+                    * cos( radians( longitude ) - radians(?)
+                    ) + sin( radians(?) ) *
+                    sin( radians( latitude ) ) )
+                    ) AS distance"))
+               ->having("distance", "<", "?")
+               ->orderBy("distance")
+               ->setBindings([$request->latitude, $request->longitude, $request->latitude, $request->distance])
+               ->get();
+   
+            if($request->regex != null) {
+                $regex = $request->regex;
+                $ff = $festivals->filter(function ($festival) use ($regex) {
+                if(stripos($festival->festival_name,$regex) != FALSE)
+                            return $festival;
+            });
+                
+            if($request->category_id != null){
+                
+                $id = $request->category_id;
+                $fk = $ff->filter(function ($festival) use ($id) {
+                if($festival->category_id == $id)
+                            return $festival;
+                });          
+                    return Response::json($fk);
+                }
+                    else return Response::json($ff);
+            }            
+            else{
+                if($request->category_id != null){
+                    $id = $request->category_id;
+                    $fk = $festivals->filter(function ($festival) use ($id) {
+                        if($festival->category_id == $id)
+                            return $festival;
+                    });
+                        return Response::json($fk);
+                     }       
+                }
+            return Response::json($festivals);
+        }else{
+            if($request->regex != null){
+                $regex = $request->regex;
+                $festivals = Festivals::all();
+                $ff = $festivals->filter(function ($festival) use ($regex){
+                    if(stripos($festival->festival_name,$regex) != FALSE)
+                       return $festival;
+                    });
+            if($request->category_id != null){
+                $id = $request->category_id;
+                $fk = $ff->filter(function ($festival) use ($id){
+                    if($festival->category_id == $id)
+                        return $festival;
+                    });
+                return Response::json($fk);
+            }    
+                return Response::json($ff);
+   
+           }else{
+                if($request->category_id != null){
+                    $id = $request->category_id;
+                    $festivals = Festivals::all();
+                    $fk = $festivals->filter(function ($festival) use ($id) {
+                        if($festival->category_id == $id)
+                            return $festival;
+                    });            
+                        return Response::json($fk);          
+                    }
+                        else return Response::json(Festivals::all());
+            }         
+        }
+}
     
     public function show(Request $request){
-       return Response::json(Festivals::simplePaginate($request->npp));
+       return Response::json(Festivals::all());
     }
     
     public function showFestivalByID(Request $request){
        return Response::json(Festivals::where('id' , $request->id)->get());
     }
  
-    public function update(UpdateFestivalRequest $request){
-        
-       $festival = Festivals::where('id' , $request->id)->get();
-       
-       $festival[0]['festival_name'] = $request->festival_name;
-       $festival[0]['location'] = $request->location;
-       $festival[0]['band_names'] = $request->band_names;
-       $festival[0]['latitude'] = $request->latitude;
-       $festival[0]['longitude'] = $request->longitude;
-       $url = $festival[0]['image_url'];
+    public function update(UpdateFestivalRequest $request){ 
+       $festival = Festivals::find($request->id); 
+       $festival->festival_name= $request->festival_name;
+       $festival->location = $request->location;
+       $festival->band_names = $request->band_names;
+       $festival->latitude = $request->latitude;
+       $festival->longitude = $request->longitude;
+       $url = $festival->image_url;
        
        if(File::exists($url))
            File::delete($url);
        
        $image = $request->file('image_url');
-       $id = $festival[0]['id'];
+       $id = $festival->id;
        $name = 'image'.$id.'.'.$image->getClientOriginalExtension();
        $destinationPath = public_path('/images');
        $image->move($destinationPath, $name);
-       $festival[0]['image_url']->image_url = 'images/'.$name;     
+       $festival->image_url = 'images/'.$name;  
+       $festival->save();
        return Response::json(Festivals::all());
     
     }

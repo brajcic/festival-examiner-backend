@@ -36,10 +36,10 @@ class CategoryController extends Controller
     }
     
     public function update(UpdateCategoryRequest $request){  
-        $id = $request->id; 
-        $oldCategory = Category::where('id', $id)->get();
-        $oldCategory[0]['category_name'] = $request->category_name;
-        $oldCategory[0]->save();
+        
+        $oldCategory = Category::find($request->id);
+        $oldCategory->category_name = $request->category_name;
+        $oldCategory->save();
         return Response::json(Category::all());
     } 
 }

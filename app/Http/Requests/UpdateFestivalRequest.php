@@ -31,7 +31,7 @@ class UpdateFestivalRequest extends FormRequest
             'latitude' => 'required',
             'longitude' => 'required',
             'image_url' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'category_id' => 'required'
+            'category_id' => 'required|exists:fcategories,id'
         ];
     }
     
