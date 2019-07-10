@@ -27,15 +27,9 @@ Route::get('/addComment' , 'AddCommentController@addComment');
 
 Route::get('/addRating' , 'AddRating@addRating');
 
-Route::post('/updateFestival' , 'AddFestivalController@update');
-
 Route::get('/searchFestivals' , 'AddFestivalController@search');
 
 Route::get('/showFestivals' , 'AddFestivalController@show');
-
-Route::post('/showFestivalByID' , 'AddFestivalController@showFestivalByID');
-
-Route::get('/distance', 'AddFestivalController@distance');
 
 Route::get('/filters' , 'AddFestivalController@filters');
 
@@ -61,5 +55,8 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     
     Route::post('/showCategory', 'CategoryController@show');
     
+    Route::post('/updateFestival' , 'AddFestivalController@update');
+    
+    Route::post('/showFestivalByID' , 'AddFestivalController@showFestivalByID');
 });
    

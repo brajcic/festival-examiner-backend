@@ -24,10 +24,10 @@ class FilterRequest extends FormRequest
     public function rules()
     {
         return [
-            'regex' => 'nullable',
+            'regex' => 'nullable|string',
             'latitude' => 'nullable',
             'longitude' => 'nullable',
-            'category_id' => 'nullable'
+            'category_id' => 'nullable|integer'
         ];
     }
     
