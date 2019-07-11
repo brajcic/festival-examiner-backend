@@ -16,7 +16,7 @@ use App\Ratings;
 class RatingController extends Controller
 {
     public function show(Request $request){
-        return Response::json(Ratings::all());
+        return Response::json(Ratings::where('festival_id' , $request->id)->get());
     }
     
     public function delete(Request $request){

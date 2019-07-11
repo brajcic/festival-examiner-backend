@@ -18,13 +18,24 @@ use App\Ratings;
 
 class CommentController extends Controller
 {
-    public function show(Request $request){
-        return Response::json(Comments::all());
-    }
     
     public function delete(Request $request){
-        Comments::where('id', $request->id)->delete();
-        return Response::json(Comments::all());
+        
+        $festival = Comments::where('id', $request->id)->get();
+        $idf = $festival->pluck('festival_id');
+        Comments::where('id', $request->id)->delete(); 
+        return Response::json(Comments::where('festival_id', $idf)->get());
+    }
+    
+    public function showid(Request $request){
+       
+        //var_dump($request->id);
+        
+       $komentari = Comments::where('festival_id', $request->id)->get();
+       
+       
+        return Response::json($komentari);
+        
     }
     
 }

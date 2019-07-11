@@ -12,7 +12,7 @@ class CommentsTableSeeder extends Seeder
     public function run()
     {
         DB::table('comments')->insert([
-			'name' => '127.0.0.1',
+			'name' => '127.0.0.0',
 			'festival_id' => 1,
 			'comment' => ' Odlican festival, 3 dana je previse malo vremena!'	
 		]);
@@ -30,7 +30,7 @@ class CommentsTableSeeder extends Seeder
 		]);
 		
 		DB::table('comments')->insert([
-			'name' => '127.0.0.1',
+			'name' => '127.0.0.11',
 			'festival_id' => 2,
 			'comment' => 'Jedva sam docekao ovaj dan!'	
 		]);

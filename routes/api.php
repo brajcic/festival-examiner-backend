@@ -21,17 +21,15 @@ Route::post('/register' , 'AuthController@register');
 
 Route::post('/login' , 'AuthController@login');
 
-Route::post('/logout' , 'AuthController@logout');
-
-Route::get('/addComment' , 'AddCommentController@addComment');
-
-Route::get('/addRating' , 'AddRating@addRating');
-
-Route::get('/searchFestivals' , 'AddFestivalController@search');
-
 Route::get('/showFestivals' , 'AddFestivalController@show');
 
 Route::get('/filters' , 'AddFestivalController@filters');
+
+Route::post('/showCategory', 'CategoryController@show');
+
+Route::post('/showComments' , 'CommentController@showid');
+
+Route::get('/addComment' , 'AddCommentController@addComment');
 
 Route::group(['middleware' => ['jwt.auth']], function() {
      
@@ -45,15 +43,11 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     
     Route::post('/deleteCategory' , 'CategoryController@delete');
     
-    Route::post('/deleteComment' , 'CommentControler@delete');
+    Route::post('/deleteComment' , 'CommentController@delete');
     
     Route::post('/deleteRating' , 'RatingController@delete');
-    
-    Route::post('/showComments' , 'CommentController@show');
-    
-    Route::post('/showRatings' , 'RatingController@show');
-    
-    Route::post('/showCategory', 'CategoryController@show');
+        
+    //Route::post('/showCategory', 'CategoryController@show');
     
     Route::post('/updateFestival' , 'AddFestivalController@update');
     

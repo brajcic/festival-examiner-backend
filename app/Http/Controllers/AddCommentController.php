@@ -17,11 +17,15 @@ use Response;
 class AddCommentController extends Controller
 {
     public function addComment(AddCommentRequest $request){
+        
         $newComment = new Comments;
-        $newComment->name = $request->name;
+     
         $newComment->comment = $request->comment;
-        $newComment->festival_id = $request->festival_id;
-        return Response::json(Comments::all());
+        $id = Comments::max('id') + 1;
+        $newComment->name = $request->name.$id;
+        $newComment->festival_id = $request->id;
+        $newComment->save();
+        return Response::json(Comments::where('festival_id' , $request->id)->get());
     }
    
 }
